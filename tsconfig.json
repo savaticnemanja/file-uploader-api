@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "moduleResolution": "Node",
+    "strict": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "baseUrl": "",
+  },
+  "include": ["src/**/*"],
+  "files": ["src/declarations/express.d.ts"],
+}

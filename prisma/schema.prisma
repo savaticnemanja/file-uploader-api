@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  firstName String  @db.VarChar(100)
+  lastName  String  @db.VarChar(100)
+  mail      String  @unique @db.VarChar(62)
+  password  String  @db.VarChar(200)
+  isAdmin   Boolean @default(false)
+
+  projects Project[]
+}
+
+model Project {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  phase     Int       @default(1)
+  location  String    @db.VarChar(255)
+  startDate DateTime  @db.Date
+  endDate   DateTime? @db.Date
+  timeLimit Int
+  value     Float
+  link      String    @unique @db.VarChar(20)
+
+  users          User[]
+  payments       Payment[]
+  files          File[]
+  documentations Documentation[]
+}
+
+model Documentation {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(255)
+  fileName  String @db.VarChar(200)
+  projectId Int
+
+  Project Project @relation(fields: [projectId], references: [id])
+}
+
+model File {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(200)
+  projectId Int
+
+  project Project @relation(fields: [projectId], references: [id])
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  date      DateTime @default(now()) @db.Date
+  projectId Int
+
+  project Project @relation(fields: [projectId], references: [id])
+}
